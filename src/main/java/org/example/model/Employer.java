@@ -17,4 +17,10 @@ public class Employer {
     @Column(name = "surname")
     private String surName;
 
+    public Employer(){}
+
+    public Employer(String name, String surName) {
+        this.name = name;
+        this.surName = surName;
+    }
 }
