@@ -8,6 +8,6 @@ import java.util.List;
 public interface MainService {
     public List<Employee> getEmployees();
     public List<Employer> getEmployers();
-    public void save();
+    public void saveStaff(int type);
 
 }

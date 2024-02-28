@@ -34,8 +34,7 @@ public class MainServiceImpl implements MainService {
         return employerRepo.findAll();
     }
 
-
-    public void save() {
+    public void saveStaff(int type) {
 
     }
 }

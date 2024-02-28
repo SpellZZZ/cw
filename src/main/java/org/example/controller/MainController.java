@@ -1,14 +1,13 @@
 package org.example.controller;
 
 
-import org.example.dao.EmployeeRepo;
-import org.example.dao.EmployerRepo;
 import org.example.model.Employee;
 import org.example.model.Employer;
 import org.example.service.MainService;
-import org.example.service.MainServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,6 +31,12 @@ public class MainController {
     public List<Employer> getEmployers() {
         return mainService.getEmployers();
     }
+
+    @PostMapping("/addStaff/{type}")
+    public void addStaff(@PathVariable int type) {
+        mainService.saveStaff(type);
+    }
+
 
 
 }
