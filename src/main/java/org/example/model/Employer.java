@@ -3,6 +3,8 @@ package org.example.model;
 
 import jakarta.persistence.*;
 
+
+
 @Table(name = "employers")
 public class Employer {
     @Id
