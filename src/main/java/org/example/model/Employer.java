@@ -4,7 +4,7 @@ package org.example.model;
 import jakarta.persistence.*;
 
 
-
+@Entity
 @Table(name = "employers")
 public class Employer {
     @Id
