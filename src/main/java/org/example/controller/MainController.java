@@ -32,7 +32,7 @@ public class MainController {
         return mainService.getEmployers();
     }
 
-    @PostMapping("/addStaff/{type}")
+    @GetMapping("/addStaff/{type}")
     public void addStaff(@PathVariable int type) {
         mainService.saveStaff(type);
     }
