@@ -35,7 +35,24 @@ public class MainServiceImpl implements MainService {
     }
 
     public void saveStaff(int type) {
+        if(!checkValue(type)) return;
 
+        switch (type) {
+            case 0 -> {
+                Employer employer = new Employer("imie", "nazwisko");
+                employerRepo.save(employer);
+            }
+            case 1 -> {
+                Employee employee = new Employee("imie", "nazwisko");
+                employeeRepo.save(employee);
+            }
+        }
+
+    }
+
+
+    private boolean checkValue(int type){
+        return type == 0 || type == 1;
     }
 }
 
