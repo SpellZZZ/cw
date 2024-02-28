@@ -1,10 +1,10 @@
 package org.example.model;
 
+
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "employees")
-public class Employee {
+@Table(name = "employers")
+public class Employer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,4 +14,5 @@ public class Employee {
 
     @Column(name = "surname")
     private String surName;
+
 }
