@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-    private EmployerRepo employerRepo;
-    private EmployeeRepo employeeRepo;
+    private final EmployerRepo employerRepo;
+    private final EmployeeRepo employeeRepo;
 
     @Autowired
-    MainController(){
-
-
+    MainController(EmployerRepo employerRepo,
+                   EmployeeRepo employeeRepo){
+        this.employerRepo = employerRepo;
+        this.employeeRepo = employeeRepo;
     }
+
+
 }
