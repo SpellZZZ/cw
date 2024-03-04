@@ -5,10 +5,8 @@ import org.example.model.Employee;
 import org.example.model.Employer;
 import org.example.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,18 +22,21 @@ public class MainController {
 
 
     @GetMapping("/allEmployees")
+    @ResponseBody
     public List<Employee> getEmployees() {
         return mainService.getEmployees();
     }
     @GetMapping("/allEmployers")
+    @ResponseBody
     public List<Employer> getEmployers() {
         return mainService.getEmployers();
     }
 
 
-    @GetMapping("/addStaff/{type}")
-    public void addStaff(@PathVariable int type) {
-        mainService.saveStaff(type);
+    @PostMapping("/addStaff/{type}")
+    public ResponseEntity<String> addStaff(@PathVariable int type) {
+        if(mainService.saveStaff(type)) return ResponseEntity.ok("Ok");
+        else return ResponseEntity.badRequest().body("Invalid staff type.");
     }
 
 

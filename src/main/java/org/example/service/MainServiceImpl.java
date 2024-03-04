@@ -34,8 +34,9 @@ public class MainServiceImpl implements MainService {
         return employerRepo.findAll();
     }
 
-    public void saveStaff(int type) {
-        if(!checkValue(type)) return;
+    public boolean saveStaff(int type) {
+        System.out.println(!checkValue(type));
+        if(!checkValue(type)) return false;
 
         switch (type) {
             case 0 -> {
@@ -47,6 +48,7 @@ public class MainServiceImpl implements MainService {
                 employeeRepo.save(employee);
             }
         }
+        return true;
 
     }
 
