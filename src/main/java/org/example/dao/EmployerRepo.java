@@ -5,6 +5,6 @@ import org.example.model.Employer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployerRepo extends JpaRepository<Employer, Long> {
-    Employee findByName(String name);
-    Employee findBySurName(String surname);
+    Employer findByName(String name);
+    Employer findBySurName(String surname);
 }
