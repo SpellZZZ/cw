@@ -1,4 +1,4 @@
-package test;
+package org.example;
 
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.AssertionsForClassTypes;

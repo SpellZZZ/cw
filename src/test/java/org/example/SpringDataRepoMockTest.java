@@ -1,4 +1,4 @@
-package test;
+package org.example;
 
 import org.assertj.core.api.Assertions;
 import org.example.Main;
@@ -23,7 +23,6 @@ public class SpringDataRepoMockTest {
 
     @Test
     public void testFindByName() {
-        // Given
         String name = "John";
         Employer employer = new Employer();
         employer.setName(name);

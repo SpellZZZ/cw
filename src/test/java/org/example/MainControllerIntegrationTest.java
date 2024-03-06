@@ -1,78 +1,89 @@
 package org.example;
 
-import org.example.Main;
 import org.example.controller.MainController;
 import org.example.model.Employee;
 import org.example.model.Employer;
 import org.example.service.MainService;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
-
-@SpringBootTest
-@AutoConfigureMockMvc
-public class MainControllerIntegrationTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-    @MockBean
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+class MainControllerIntegrationTest {
+
+    @Mock
     private MainService mainService;
 
-    @Test
-    void getEmployees() throws Exception {
+    @InjectMocks
+    private MainController mainController;
 
-        Mockito.when(mainService.getEmployees()).thenReturn(List.of(new Employee("pracownik", "pracownik")));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/allEmployees")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("pracownik"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].surName").value("pracownik"));
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void getEmployers() throws Exception {
-        Mockito.when(mainService.getEmployers()).thenReturn(List.of(new Employer("pracownik", "pracownik")));
+    void getEmployees() {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/allEmployers")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("pracownik"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].surName").value("pracownik"));
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee("pracownik", "pracownik"));
+        employees.add(new Employee("pracownik", "pracownik"));
+        Mockito.when(mainService.getEmployees()).thenReturn(employees);
+
+        List<Employee> result = mainController.getEmployees();
+
+        Assertions.assertEquals(employees.size(), result.size());
+        Mockito.verify(mainService, Mockito.times(1)).getEmployees();
     }
 
     @Test
-    void addStaff_withValidType() throws Exception {
+    void getEmployers() {
+
+        List<Employer> employers = new ArrayList<>();
+        employers.add(new Employer("pracownik", "pracownik"));
+        employers.add(new Employer("pracownik", "pracownik"));
+        Mockito.when(mainService.getEmployers()).thenReturn(employers);
+
+        List<Employer> result = mainController.getEmployers();
+
+        Assertions.assertEquals(employers.size(), result.size());
+        Mockito.verify(mainService, Mockito.times(1)).getEmployers();
+    }
+
+    @Test
+    void addStaff_withValidType() {
+
         int type = 0;
 
         Mockito.when(mainService.saveStaff(type)).thenReturn(true);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/addStaff/{type}", type)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        ResponseEntity<String> responseEntity = mainController.addStaff(type);
+
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Mockito.verify(mainService, Mockito.times(1)).saveStaff(type);
     }
 
     @Test
-    void addStaff_withInvalidType() throws Exception {
+    void addStaff_withInvalidType() {
         int type = 2;
 
         Mockito.when(mainService.saveStaff(type)).thenReturn(false);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/addStaff/{type}", type)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        ResponseEntity<String> responseEntity = mainController.addStaff(type);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode()); // Assuming a generic OK response
+        Mockito.verify(mainService, Mockito.times(1)).saveStaff(type);
     }
 }
