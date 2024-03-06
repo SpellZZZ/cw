@@ -1,4 +1,4 @@
-package test;
+package org.example;
 
 import org.example.Main;
 import org.example.controller.MainController;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = Main.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 public class MainControllerIntegrationTest {
 
@@ -45,10 +45,8 @@ public class MainControllerIntegrationTest {
 
     @Test
     void getEmployers() throws Exception {
-        // given
         Mockito.when(mainService.getEmployers()).thenReturn(List.of(new Employer("pracownik", "pracownik")));
 
-        // when/then
         mockMvc.perform(MockMvcRequestBuilders.get("/allEmployers")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
