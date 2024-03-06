@@ -1,12 +1,12 @@
+package test;
+
 import org.example.Main;
 import org.example.controller.MainController;
 import org.example.model.Employee;
 import org.example.model.Employer;
 import org.example.service.MainService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +30,6 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,12 +59,12 @@ class MainControllerTest {
         List<Employee> employees = new ArrayList<>();
         employees.add(new Employee("pracownik", "pracownik"));
         employees.add(new Employee("pracownik", "pracownik"));
-        when(mainService.getEmployees()).thenReturn(employees);
+        Mockito.when(mainService.getEmployees()).thenReturn(employees);
 
         List<Employee> result = mainController.getEmployees();
 
-        assertEquals(employees.size(), result.size());
-        verify(mainService, times(1)).getEmployees();
+        Assertions.assertEquals(employees.size(), result.size());
+        Mockito.verify(mainService, Mockito.times(1)).getEmployees();
     }
 
     @Test
@@ -74,12 +73,12 @@ class MainControllerTest {
         List<Employer> employers = new ArrayList<>();
         employers.add(new Employer("pracownik", "pracownik"));
         employers.add(new Employer("pracownik", "pracownik"));
-        when(mainService.getEmployers()).thenReturn(employers);
+        Mockito.when(mainService.getEmployers()).thenReturn(employers);
 
         List<Employer> result = mainController.getEmployers();
 
-        assertEquals(employers.size(), result.size());
-        verify(mainService, times(1)).getEmployers();
+        Assertions.assertEquals(employers.size(), result.size());
+        Mockito.verify(mainService, Mockito.times(1)).getEmployers();
     }
 
     @Test
@@ -87,24 +86,24 @@ class MainControllerTest {
 
         int type = 0;
 
-        when(mainService.saveStaff(type)).thenReturn(true);
+        Mockito.when(mainService.saveStaff(type)).thenReturn(true);
 
 
         ResponseEntity<String> responseEntity = mainController.addStaff(type);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(mainService, times(1)).saveStaff(type);
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Mockito.verify(mainService, Mockito.times(1)).saveStaff(type);
     }
 
     @Test
     void addStaff_withInvalidType() {
         int type = 2;
 
-        when(mainService.saveStaff(type)).thenReturn(false);
+        Mockito.when(mainService.saveStaff(type)).thenReturn(false);
 
         ResponseEntity<String> responseEntity = mainController.addStaff(type);
 
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode()); // Assuming a generic OK response
-        verify(mainService, times(1)).saveStaff(type);
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode()); // Assuming a generic OK response
+        Mockito.verify(mainService, Mockito.times(1)).saveStaff(type);
     }
 }

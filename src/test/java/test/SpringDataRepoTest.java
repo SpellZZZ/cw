@@ -1,4 +1,7 @@
+package test;
+
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.example.Main;
 import org.example.dao.EmployeeRepo;
 import org.example.dao.EmployerRepo;
@@ -25,10 +28,10 @@ class SpringDataRepoTest {
 
     @Test
     void injectedComponentsAreNotNull(){
-        assertThat(dataSource).isNotNull();
-        assertThat(jdbcTemplate).isNotNull();
-        assertThat(entityManager).isNotNull();
-        assertThat(employerRepo).isNotNull();
-        assertThat(employeeRepo).isNotNull();
+        AssertionsForClassTypes.assertThat(dataSource).isNotNull();
+        AssertionsForClassTypes.assertThat(jdbcTemplate).isNotNull();
+        AssertionsForClassTypes.assertThat(entityManager).isNotNull();
+        AssertionsForClassTypes.assertThat(employerRepo).isNotNull();
+        AssertionsForClassTypes.assertThat(employeeRepo).isNotNull();
     }
 }

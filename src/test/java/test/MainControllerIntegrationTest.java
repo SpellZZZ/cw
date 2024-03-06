@@ -1,9 +1,12 @@
+package test;
+
 import org.example.Main;
 import org.example.controller.MainController;
 import org.example.model.Employee;
 import org.example.model.Employer;
 import org.example.service.MainService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,13 +27,14 @@ public class MainControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @MockBean
     private MainService mainService;
 
     @Test
     void getEmployees() throws Exception {
 
-        when(mainService.getEmployees()).thenReturn(List.of(new Employee("pracownik", "pracownik")));
+        Mockito.when(mainService.getEmployees()).thenReturn(List.of(new Employee("pracownik", "pracownik")));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/allEmployees")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -42,7 +46,7 @@ public class MainControllerIntegrationTest {
     @Test
     void getEmployers() throws Exception {
         // given
-        when(mainService.getEmployers()).thenReturn(List.of(new Employer("pracownik", "pracownik")));
+        Mockito.when(mainService.getEmployers()).thenReturn(List.of(new Employer("pracownik", "pracownik")));
 
         // when/then
         mockMvc.perform(MockMvcRequestBuilders.get("/allEmployers")
@@ -56,7 +60,7 @@ public class MainControllerIntegrationTest {
     void addStaff_withValidType() throws Exception {
         int type = 0;
 
-        when(mainService.saveStaff(type)).thenReturn(true);
+        Mockito.when(mainService.saveStaff(type)).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/addStaff/{type}", type)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -67,7 +71,7 @@ public class MainControllerIntegrationTest {
     void addStaff_withInvalidType() throws Exception {
         int type = 2;
 
-        when(mainService.saveStaff(type)).thenReturn(false);
+        Mockito.when(mainService.saveStaff(type)).thenReturn(false);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/addStaff/{type}", type)
                         .contentType(MediaType.APPLICATION_JSON))
